@@ -18,11 +18,13 @@ export default function App() {
   // useReducer is React's built-in way to run the reducer pattern from state.ts.
   // The third argument is a lazy initializer: restore a saved game if there is
   // one for today, otherwise start fresh.
-  const [state, dispatch] = useReducer(
-    reduce,
-    null,
-    () => loadGame(todayKey) ?? createGame(event.year, today.getFullYear()),
-  )
+  const [state, dispatch] = useReducer(reduce, null, () => {
+    const saved = loadGame(todayKey)
+    // Only trust a saved game if it is about today's event. If the event list
+    // changed since the save ( a redeploy ), start a fresh game instead.
+    if (saved && saved.answer === event.year) return saved
+    return createGame(event.year, today.getFullYear())
+  })
 
   // Save after every change so a refresh continues where the player left off.
   useEffect(() => {

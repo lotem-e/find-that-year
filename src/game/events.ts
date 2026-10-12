@@ -6,7 +6,6 @@ export type HistoricEvent = {
 }
 
 export const EVENTS: HistoricEvent[] = [
-  { title: 'The Rosetta Stone is discovered', year: 1799 },
   { title: 'Neil Armstrong walks on the Moon', year: 1969 },
   { title: 'The Berlin Wall falls', year: 1989 },
   { title: 'Columbus reaches the Americas', year: 1492 },
@@ -46,6 +45,7 @@ export const EVENTS: HistoricEvent[] = [
   { title: 'Google is founded', year: 1998 },
   { title: 'The Berlin Wall is built', year: 1961 },
   { title: 'Gutenberg prints his Bible', year: 1455 },
+  { title: 'The Rosetta Stone is discovered', year: 1799 },
 ]
 
 // Day zero of the game. The puzzle number counts up from here.
