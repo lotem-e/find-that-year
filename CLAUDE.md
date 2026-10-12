@@ -8,6 +8,10 @@ A daily history game. One world event per day; the player guesses the year, then
 - Vitest for the game logic. No UI tests.
 - No backend. The daily event comes from a local list and the day's progress is saved in localStorage.
 
+## Deployment
+
+Live at https://lotem-e.github.io/find-that-year/ via `.github/workflows/deploy.yml`: every push to `main` runs the tests, builds, and publishes `dist`. The Vite `base` is `/find-that-year/`, so in dev the app is at http://localhost:5179/find-that-year/ ( the root redirects there ). Own URLs must go through `import.meta.env.BASE_URL`.
+
 ## Commands
 
 - `npm run dev` - dev server ( the workspace launch.json runs it on port 5179 ).
