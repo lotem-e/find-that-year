@@ -9,17 +9,15 @@ type Props = {
   answer: number
   title: string
   errors: Tier[]
-  puzzleNumber: number
+  onNext: () => void
 }
 
-// The end of the day's game: outcome, the answer, and a share button.
-export function ResultScreen({ won, answer, title, errors, puzzleNumber }: Props) {
+// The end of a round: outcome, the answer, share, and on to the next event.
+export function ResultScreen({ won, answer, title, errors, onNext }: Props) {
   const [copied, setCopied] = useState(false)
   const mistakes = errors.length
 
-  const shareText = `Find That Year #${puzzleNumber}\n${errorBoxesEmoji(errors)}\n${
-    won ? `${title}: ${answer}` : 'Better luck tomorrow'
-  }`
+  const shareText = `Find That Year\n${title}\n${errorBoxesEmoji(errors)}${won ? '' : '\nRan out of tries'}`
 
   async function share() {
     try {
@@ -54,8 +52,16 @@ export function ResultScreen({ won, answer, title, errors, puzzleNumber }: Props
         <ErrorBar errors={errors} />
       </div>
       <div className="flex flex-col items-center gap-4">
-        <Button onClick={share}>{copied ? RESULT.copied : RESULT.share}</Button>
-        <p className="text-sm font-semibold text-ink-soft">{RESULT.comeBack}</p>
+        <Button onClick={onNext} autoFocus>
+          {RESULT.next}
+        </Button>
+        <button
+          type="button"
+          onClick={share}
+          className="text-base font-semibold text-ink-soft underline-offset-4 hover:underline"
+        >
+          {copied ? RESULT.copied : RESULT.share}
+        </button>
       </div>
     </div>
   )

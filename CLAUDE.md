@@ -1,12 +1,12 @@
 # Find That Year
 
-A daily history game. One world event per day; the player guesses the year, then narrows it down stage by stage. Fewer mistakes is a better score. Design source: Figma file "Find That Year" ( https://www.figma.com/design/Iwo0i1dKr1cUUfW8YYite7/Find-That-Year ).
+A history game. Each round shows a world event; the player guesses the year, then narrows it down stage by stage. Rounds are endless ( random event each time ); a true one-per-day mode is a possible later step. Fewer mistakes is a better score. Design source: Figma file "Find That Year" ( https://www.figma.com/design/Iwo0i1dKr1cUUfW8YYite7/Find-That-Year ).
 
 ## Stack
 
 - Vite + React 19 + TypeScript, Tailwind v4 ( tokens live in `src/index.css` under `@theme` ).
 - Vitest for the game logic. No UI tests.
-- No backend. The daily event comes from a local list and the day's progress is saved in localStorage.
+- No backend. Events come from a local list and the current round is saved in localStorage under one key.
 
 ## Deployment
 
@@ -20,7 +20,7 @@ Live at https://lotem-e.github.io/find-that-year/ via `.github/workflows/deploy.
 
 ## How the game works
 
-1. `src/game/events.ts` - the event pool and the daily pick. The puzzle number is days since 12 October 2026 and walks through the list, wrapping around.
+1. `src/game/events.ts` - the event pool and `randomEvent`, which never repeats the event just played. `App.tsx` wraps the game reducer in a tiny session reducer whose only extra action is `next`.
 2. `src/game/scoring.ts` - pure rules. Years are split into buckets with integer division: millennium = floor( y / 1000 ), century = floor( y / 100 ), decade = floor( y / 10 ). So "the 18th century" is 1700 - 1799, the popular convention, not 1701 - 1800.
 3. `src/game/state.ts` - the reducer. Phases: `first-guess` -> `feedback` -> `narrowing` -> `done`. The first guess is classified into a tier ( bce, millennium, century, decade, year, exact ). Stages the guess already got right are skipped. Every wrong pick adds an error box in the stage's color; five boxes means the game is lost. A stage with a single option is resolved automatically.
 4. `src/game/copy.ts` - every piece of UI text, including the per-tier feedback messages.

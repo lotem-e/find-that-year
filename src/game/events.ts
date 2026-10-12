@@ -1,4 +1,4 @@
-// The pool of daily events. Every entry is an AD year, because the game treats
+// The pool of events. Each round draws one at random. Every entry is an AD year, because the game treats
 // any BCE guess as "too early". Keep titles short: they are the headline.
 export type HistoricEvent = {
   title: string
@@ -48,29 +48,15 @@ export const EVENTS: HistoricEvent[] = [
   { title: 'The Rosetta Stone is discovered', year: 1799 },
 ]
 
-// Day zero of the game. The puzzle number counts up from here.
-const EPOCH = Date.UTC(2026, 9, 12) // 12 October 2026 (months are zero-based)
-const DAY_MS = 24 * 60 * 60 * 1000
-
-// Turn a calendar date into a puzzle number. We use the local date so that
-// "today" matches the player's clock, then count whole days since the epoch.
-export function puzzleNumber(date: Date): number {
-  const localMidnightAsUtc = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
-  return Math.floor((localMidnightAsUtc - EPOCH) / DAY_MS)
+// Pick a random event, never the one just played, so two rounds in a row
+// always feel different. Math.random is fine here: nothing needs to be
+// reproducible, unlike a true "same puzzle for everyone" daily mode.
+export function randomEvent(exclude?: HistoricEvent): HistoricEvent {
+  const pool = EVENTS.filter((e) => e !== exclude)
+  return pool[Math.floor(Math.random() * pool.length)]
 }
 
-// Everyone gets the same event on the same day: the puzzle number walks
-// through the list and wraps around when it reaches the end.
-export function eventForDate(date: Date): { number: number; event: HistoricEvent } {
-  const number = puzzleNumber(date)
-  const index = ((number % EVENTS.length) + EVENTS.length) % EVENTS.length
-  return { number, event: EVENTS[index] }
-}
-
-// A stable key for saving today's progress, e.g. "2026-10-12".
-export function dateKey(date: Date): string {
-  const y = date.getFullYear()
-  const m = String(date.getMonth() + 1).padStart(2, '0')
-  const d = String(date.getDate()).padStart(2, '0')
-  return `${y}-${m}-${d}`
+// Find an event by title, used when restoring a saved round.
+export function findEvent(title: string): HistoricEvent | undefined {
+  return EVENTS.find((e) => e.title === title)
 }

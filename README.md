@@ -1,6 +1,6 @@
 # Find That Year
 
-A daily history game. Guess the year of a world event, then zoom in: millennium, century, decade, year. Fewer mistakes, better score.
+A history game. Guess the year of a world event, then zoom in: millennium, century, decade, year. Fewer mistakes, better score.
 
 ```bash
 npm install

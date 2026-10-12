@@ -68,5 +68,5 @@ export const RESULT = {
   },
   share: 'Share result',
   copied: 'Copied!',
-  comeBack: 'A new event arrives tomorrow.',
+  next: 'Next event',
 }
