@@ -21,7 +21,8 @@ const PALETTE = {
 // File names use the human number (century-18 = the 18th century), while
 // buckets are zero-based (bucket 17 = years 1700 - 1799), hence the + 1.
 function iconFor(stage: 'millennium' | 'century', bucket: number): string {
-  return `/icons/${stage}-${bucket + 1}.svg`
+  // BASE_URL is '/' in dev and '/find-that-year/' on GitHub Pages ( see vite.config.ts ).
+  return `${import.meta.env.BASE_URL}icons/${stage}-${bucket + 1}.svg`
 }
 
 // A vertical list of big tappable cards. Wrong picks stay in the list but turn
