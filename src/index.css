@@ -1,0 +1,62 @@
+@import 'tailwindcss';
+
+/*
+  Design tokens, copied from the Figma variables.
+  Tailwind v4 reads the `--color-*` names inside @theme and turns each one into
+  utilities, so `--color-ink` gives us `text-ink`, `bg-ink`, `border-ink`, etc.
+*/
+@theme {
+  --font-sans: 'Source Sans 3', 'Source Sans Pro', system-ui, sans-serif;
+
+  /* Base palette: the blue / indigo family used on every screen */
+  --color-ink: #494d71; /* text primary */
+  --color-ink-soft: #64699b; /* text secondary */
+  --color-ink-faded: rgba(82, 86, 126, 0.7); /* digits above and below the wheel */
+  --color-base-0: #ffffff;
+  --color-base-1: #e9f1ff; /* the first-guess field */
+  --color-base-2: #cddafb; /* top bar and buttons */
+
+  /* Millennium cards: pink family */
+  --color-millennium-1: #ffdede;
+  --color-millennium-2: #fcabab;
+  --color-millennium-3: #d65b5b;
+
+  /* Century cards: orange family */
+  --color-century-1: #ffe9ce;
+  --color-century-2: #ffca8c;
+  --color-century-3: #f78600;
+
+  /* Disabled cards: grey family */
+  --color-disabled-1: #ececec;
+  --color-disabled-2: #d0d0d0;
+  --color-disabled-3: #808080;
+
+  /* Error box colors, one per tier */
+  --color-tier-bce: #1f1f1f;
+  --color-tier-millennium: #e5484d;
+  --color-tier-century: #f78600;
+  --color-tier-decade: #f2c230;
+  --color-tier-year: #3cc45a;
+}
+
+html {
+  background: #f3f4f8;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide the browser's own spinner arrows on the number field: the design has none. */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
